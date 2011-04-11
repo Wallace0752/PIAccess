@@ -1,1 +1,5 @@
 The project is about PI.
+
+git status:查看当前文件的状态
+git commit -a -m 'XXX'  （XXX为注释内容）
+git push origin master：提交到远程

@@ -1,8 +1,5 @@
-//#include "piapix.h"
-//#include <jni.h>
-//#include "piaccess_PiDb.h"
 #include "PIInterface.h"
-//#include <jni.h>
+
 
 int GetTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG &tag)
 {
@@ -40,7 +37,6 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
 	}
 	jfieldID jfID = env->GetFieldID(clsTag,"rval","D");
 	env->SetDoubleField(jobjTag,jfID,tag.rval);
-	//printf("tag.rval:%f",tag.rval);
 	jfID = env->GetFieldID(clsTag,"ival","I");
 	env->SetIntField(jobjTag,jfID,tag.ival);
 	jfID = env->GetFieldID(clsTag,"istat","I");
@@ -72,9 +68,7 @@ int InitTAGFromPI(TAG &tag)//!!使用之前必须对tag进行初始化
 {
 	int result;
 	if('\0'!=tag.tagname[0])
-	{//||(0==strlen(tag.tagname))
-		//printf("name:%s",tag.tagname);
-		printf("length:%d",strlen(tag.tagname));
+	{
 		result = pipt_findpoint(tag.tagname,&tag.pointnum);
 		if(result)
 		{
@@ -224,26 +218,6 @@ void PIValueTypeToChar(PIvaluetype PtType,char* cType)
 PITIMESTAMP CalendarToPITIMESTAMP(JNIEnv *env,jobject objCal)
 {
 	PITIMESTAMP tmStamp;
-	//首先判断objCal，若不是Calendar类型，则不进行转换
-// 	jclass jclsCal = env->FindClass("java/util/Calendar");
-// 	if(!jclsCal)
-// 	{
-// 		printf("Error in CalToPITIMESTAMP FindClass!");
-// 		return tmStamp;
-// 	}
-// 	jobject jobjCal = env->AllocObject(jclsCal);
-// 
-// 	if(!jobjCal)
-// 	{
-// 		printf("Error in CalToPITIMESTAMP AllocObject!");
-// 		return tmStamp;
-// 	}
-// 	if (!(env->IsSameObject(jobjCal,objCal)))
-// 	{
-// 		printf("Not a Calendar Object!");
-// 		return tmStamp;
-// 	}
-// 	env->DeleteLocalRef(jobjCal);
 	//读取Calendar的数据
 	jclass jclsCal = env->GetObjectClass(objCal);
 	jmethodID jmGetID = env->GetMethodID(jclsCal,"get","(I)I");
@@ -273,8 +247,6 @@ PITIMESTAMP CalendarToPITIMESTAMP(JNIEnv *env,jobject objCal)
 	jCode = env->GetStaticIntField(jclsCal,jfID);
 	tmStamp.second = (int32)env->CallIntMethod(objCal,jmGetID,(int)jCode);
 
-//	printf("Year Code is %d,Year is %d",jCode,jYear);
-
 	env->DeleteLocalRef(jclsCal);
 	return tmStamp;
 }
@@ -289,7 +261,6 @@ void SetObject(JNIEnv *env,jobject objTag,double rval, int ival,
 		printf("Error in GetSnapShot GetObjectClass(Tag)");
 		return ;
 	}
-//	printf("iNumber:%d,dValue:%f,iValue:%d",iNumber,pSnapDval,pSnapIval);
 	jfieldID jRValID = env->GetFieldID(clsTag,"rval","D");
 	env->SetDoubleField(objTag,jRValID,rval);
 	jfieldID jIValID = env->GetFieldID(clsTag,"ival","I");
@@ -328,11 +299,10 @@ jobject PITIMESTAMPToCalendar(JNIEnv *env, PITIMESTAMP tmStamp)
 		printf("Error in GetMethodID!");
 		return NULL;
 	}
-	//printf("Month:%d\n",tmStamp.month);
+
 	env->CallVoidMethod(jobjCal,jmSetID,tmStamp.year,tmStamp.month,
 		tmStamp.day,tmStamp.hour,tmStamp.minute,(int)tmStamp.second);
 	
-	//printf("Second:%f",tmStamp.second);
 	return jobjCal;
 }
 //设置标签点的Calendar值

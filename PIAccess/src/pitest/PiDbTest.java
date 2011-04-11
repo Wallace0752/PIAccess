@@ -254,7 +254,7 @@ public class PiDbTest extends TestCase {
 		
 	}
 	
-	public static void mani(String[] args)
+	public static void main(String[] args)
 	{
 		junit.textui.TestRunner.run(PiDbTest.class);
 	}

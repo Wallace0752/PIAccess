@@ -66,6 +66,7 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetSingleSNData
 	pisn_getsnapshotx(tag.pointnum,&tag.rval,&tag.ival,tag.bval,&tag.bsize,
 		&tag.istat,&tag.flags,&tag.ts);
 	//printf("iNumber:%d,dValue:%f,iValue:%d \n",iNumber,pSnapDval,pSnapIval);
+	//printf("time:%f",tag.ts.second);
 	result = SetjTagFromTAG(env,tag,objTag);
 	if(!result)
 	{
@@ -158,12 +159,11 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetARData(JNIEnv *env,
 jobject obj, jobject objCalStart, jobject objCalEnd, jint iPtNumber, 
 jobjectArray objarTag)
 {
-	TAG tag;
+	//TAG tag;
+	TAG tag = {'\0',0,'\0','\0','\0',PI_Type_bad,0,0,NULL,0,0,0,NULL};
 	tag.pointnum = iPtNumber;
+	//printf("ptnumber:%d",tag.pointnum);
 	InitTAGFromPI(tag);
-// 	float64 rval;
-// 	int32 ival,istat;
-// 	int16 iflag;
 	PITIMESTAMP tmStart = CalendarToPITIMESTAMP(env,objCalStart);
 	tag.ts = CalendarToPITIMESTAMP(env,objCalEnd);
 	int32 count = env->GetArrayLength((jarray)objarTag);
@@ -193,13 +193,16 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArrayARData(JNIEnv *env,
 jobject obj, jobjectArray objarCal, jint iPtNumber, jobjectArray objarTag)
 
 {
-	TAG tag;
+	TAG tag = {'\0',0,'\0','\0','\0',PI_Type_bad,0,0,NULL,0,0,0,NULL};
 	tag.pointnum = iPtNumber;
+	printf("pt number:%d",tag.pointnum);
 	InitTAGFromPI(tag);
 // 	float64 rval;
 // 	int32 ival,istat;
 // 	int16 iflag;
+	printf("initialize finished!");
 	int32 tmCount = env->GetArrayLength((jarray)objarCal);
+	printf("count:%d",tmCount);
 	PITIMESTAMP *tm =new PITIMESTAMP[tmCount];
 	//PITIMESTAMP tmStamp;
 	for(int i=0;i<tmCount;i++)

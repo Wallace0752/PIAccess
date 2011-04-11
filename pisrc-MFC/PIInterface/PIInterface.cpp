@@ -40,6 +40,7 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
 	}
 	jfieldID jfID = env->GetFieldID(clsTag,"rval","D");
 	env->SetDoubleField(jobjTag,jfID,tag.rval);
+	//printf("tag.rval:%f",tag.rval);
 	jfID = env->GetFieldID(clsTag,"ival","I");
 	env->SetIntField(jobjTag,jfID,tag.ival);
 	jfID = env->GetFieldID(clsTag,"istat","I");
@@ -67,12 +68,13 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
 	env->DeleteLocalRef(jstr);
 	return 1;
 }
-int InitTAGFromPI(TAG &tag)
+int InitTAGFromPI(TAG &tag)//!!使用之前必须对tag进行初始化
 {
 	int result;
 	if('\0'!=tag.tagname[0])
-	{
+	{//||(0==strlen(tag.tagname))
 		//printf("name:%s",tag.tagname);
+		printf("length:%d",strlen(tag.tagname));
 		result = pipt_findpoint(tag.tagname,&tag.pointnum);
 		if(result)
 		{
@@ -114,7 +116,7 @@ int InitTAGFromPI(TAG &tag)
 	result = pipt_engunitstring ( tag.pointnum, tag.engunit, 32 );
 	if ( result )
 	{
-		printf ( "\npipt_engunitstring %ld", result );
+		//printf ( "\npipt_engunitstring %ld", result );
 		tag.engunit[0] = '\0';
 	}
 
@@ -122,21 +124,21 @@ int InitTAGFromPI(TAG &tag)
 	result = pipt_descriptor ( tag.pointnum, tag.descriptor, 27 );
 	if ( result )
 	{
-		printf ( "\npipt_descriptor %ld", result );
+		//printf ( "\npipt_descriptor %ld", result );
 		tag.descriptor[0] = '\0';
 	}
 	//读取标签点的类型信息，保存到tag中
 	result = pipt_pointtypex ( tag.pointnum, &tag.pt_typex );
 	if ( result )
 	{
-		printf ( "\npipt_pointtypex %ld", result );
+		//printf ( "\npipt_pointtypex %ld", result );
 		tag.pt_typex = PI_Type_bad;
 	}
 	//读取标签点的设备标签信息，保存到tag中
 	result = pipt_instrumenttag ( tag.pointnum, tag.instrumenttag,33);
 	if(result)
 	{
-		printf("\npipt_instrumenttag %ld",result);
+		//printf("\npipt_instrumenttag %ld",result);
 		tag.instrumenttag[0] = '\0';
 	}
 	//根据标签点的类型，对接收数值的几个变量进行赋值
@@ -328,8 +330,9 @@ jobject PITIMESTAMPToCalendar(JNIEnv *env, PITIMESTAMP tmStamp)
 	}
 	//printf("Month:%d\n",tmStamp.month);
 	env->CallVoidMethod(jobjCal,jmSetID,tmStamp.year,tmStamp.month,
-		tmStamp.day,tmStamp.hour,tmStamp.minute,tmStamp.second);
-	printf("Second:%f",tmStamp.second);
+		tmStamp.day,tmStamp.hour,tmStamp.minute,(int)tmStamp.second);
+	
+	//printf("Second:%f",tmStamp.second);
 	return jobjCal;
 }
 //设置标签点的Calendar值

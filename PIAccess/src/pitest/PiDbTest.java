@@ -24,30 +24,29 @@ public class PiDbTest extends TestCase {
 //		System.out.println();
 //		//~
 		//GetSingleSNData@
-		System.out.println("GetSingleSNData:");
-		Tag tg = new Tag();
-		tg.pointnum = 3;
-		piDb.GetSingleSNData(tg);
-		System.out.println("CDT158 info:"+
-				"name:"+tg.tagname+"\n"+
-				"number:"+tg.pointnum+"\n"+
-				"unit:"+tg.engunit+"\n"+
-				"Pt Type"+tg.pt_typex+"\n"+
-				"rval:"+tg.rval+"\n"+
-				"ival:"+tg.ival+"\n"+
-				"bval:"+tg.bval+"\n"+
-				"flags:"+tg.flags+"\n"+
-				"timedate:"+tg.timedate+"\n"+
-				"Calendar:"+tg.ts.get(Calendar.YEAR)+"-"+
-				tg.ts.get(Calendar.MONTH)+"-"+
-				tg.ts.get(Calendar.DAY_OF_MONTH)+" "+
-				tg.ts.get(Calendar.HOUR_OF_DAY)+":"+
-				tg.ts.get(Calendar.MINUTE)+":"+
-				tg.ts.get(Calendar.SECOND)+":"+
-				tg.ts.get(Calendar.MILLISECOND)+";");
-		System.out.println();
+//		System.out.println("GetSingleSNData:");
+//		Tag tg = new Tag();
+//		tg.pointnum = 3;
+//		piDb.GetSingleSNData(tg);
+//		System.out.println("CDT158 info:"+
+//				"name:"+tg.tagname+"\n"+
+//				"number:"+tg.pointnum+"\n"+
+//				"unit:"+tg.engunit+"\n"+
+//				"Pt Type"+tg.pt_typex+"\n"+
+//				"rval:"+tg.rval+"\n"+
+//				"ival:"+tg.ival+"\n"+
+//				"bval:"+tg.bval+"\n"+
+//				"flags:"+tg.flags+"\n"+
+//				"timedate:"+tg.timedate+"\n"+
+//				"Calendar:"+tg.ts.get(Calendar.YEAR)+"-"+
+//				tg.ts.get(Calendar.MONTH)+"-"+
+//				tg.ts.get(Calendar.DAY_OF_MONTH)+" "+
+//				tg.ts.get(Calendar.HOUR_OF_DAY)+":"+
+//				tg.ts.get(Calendar.MINUTE)+":"+
+//				tg.ts.get(Calendar.SECOND)+";");
+//		System.out.println();
 		//~
-//		//GetArraySNData@
+		//GetArraySNData@
 //		System.out.println("GetArraySNData:");
 //		Tag[] tgarray =new Tag[3];
 //		for(int i=0;i<3;i++)
@@ -60,7 +59,7 @@ public class PiDbTest extends TestCase {
 //		piDb.GetArraySNData(tgarray);
 //		for(int i=0;i<3;i++)
 //		{
-//			System.out.println("CDT158 info:"+
+//			System.out.println("Point info:"+"\n"+
 //					"name:"+tgarray[i].tagname+"\n"+
 //					"number:"+tgarray[i].pointnum+"\n"+
 //					"unit:"+tgarray[i].engunit+"\n"+
@@ -68,14 +67,20 @@ public class PiDbTest extends TestCase {
 //					"rval:"+tgarray[i].rval+"\n"+
 //					"ival:"+tgarray[i].ival+"\n"+
 //					"bval:"+tgarray[i].bval+"\n"+
-//					"flags:"+tgarray[i].flags+
-//					"timedate:"+tgarray[i].timedate+
-//					"Calendar:"+tgarray[i].ts);
+//					"istat:"+tgarray[i].istat+"\n"+
+//					"flags:"+tgarray[i].flags+"\n"+
+//					"timedate:"+tgarray[i].timedate+"\n"+
+//					"Calendar:"+tgarray[i].ts.get(Calendar.YEAR)+"-"+
+//					tgarray[i].ts.get(Calendar.MONTH)+"-"+
+//					tgarray[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
+//					tgarray[i].ts.get(Calendar.HOUR_OF_DAY)+":"+
+//					tgarray[i].ts.get(Calendar.MINUTE)+":"+
+//					tgarray[i].ts.get(Calendar.SECOND)+";");
 //		}
 //		tgarray = null;
 //		System.out.println();
-//		//~
-//		//GetARCount,GetARData@
+		//~
+		//GetARCount,GetARData@
 //		System.out.println("GetARCount,GetARData:");
 //		Calendar ca1 = Calendar.getInstance();
 //		Calendar ca2 = Calendar.getInstance();
@@ -99,46 +104,58 @@ public class PiDbTest extends TestCase {
 //					"rval:"+tgARarray[i].rval+"\n"+
 //					"ival:"+tgARarray[i].ival+"\n"+
 //					"bval:"+tgARarray[i].bval+"\n"+
-//					"flags:"+tgARarray[i].flags+
-//					"timedate:"+tgARarray[i].timedate+
-//					"Calendar:"+tgARarray[i].ts);
+//					"istat:"+tgARarray[i].istat+"\n"+
+//					"flags:"+tgARarray[i].flags+"\n"+
+//					"timedate:"+tgARarray[i].timedate+"\n"+
+//					"Calendar:"+tgARarray[i].ts.get(Calendar.YEAR)+"-"+
+//					tgARarray[i].ts.get(Calendar.MONTH)+"-"+
+//					tgARarray[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
+//					tgARarray[i].ts.get(Calendar.HOUR_OF_DAY)+":"+
+//					tgARarray[i].ts.get(Calendar.MINUTE)+":"+
+//					tgARarray[i].ts.get(Calendar.SECOND)+";");
 //		}
 //		System.out.println();
-//		//~
-//		//GetArrayARData@
-//		System.out.println("GetArrayARData:");
-//		Calendar caa1 = Calendar.getInstance();
-//		Calendar caa2 = Calendar.getInstance();
-//		Calendar caa3 = Calendar.getInstance();
-//		caa1.set(2011,4,7,2,0,0);
-//		caa2.set(2011,4,7,3,0,0);
-//		caa3.set(2011,4,7,4,0,0);
-//		Calendar[] carray = new Calendar[3];
-//		carray[0] = caa1;
-//		carray[1] = caa2;
-//		carray[2] = caa3;
-//		Tag[] tgtimeTest =new Tag[3];
-//		for(int i=0;i<3;i++)
-//		{
-//			tgtimeTest[i] = new Tag();
-//		}
-//		piDb.GetArrayARData(carray, 3, tgtimeTest);
-//		for(int i=0;i<3;i++)
-//		{
-//			System.out.println("CDT158 info:"+
-//					"name:"+tgtimeTest[i].tagname+"\n"+
-//					"number:"+tgtimeTest[i].pointnum+"\n"+
-//					"unit:"+tgtimeTest[i].engunit+"\n"+
-//					"Pt Type"+tgtimeTest[i].pt_typex+"\n"+
-//					"rval:"+tgtimeTest[i].rval+"\n"+
-//					"ival:"+tgtimeTest[i].ival+"\n"+
-//					"bval:"+tgtimeTest[i].bval+"\n"+
-//					"flags:"+tgtimeTest[i].flags+
-//					"timedate:"+tgtimeTest[i].timedate+
-//					"Calendar:"+tgtimeTest[i].ts);
-//		}
-//		System.out.println();
-//		//~
+		//~
+		//GetArrayARData@
+		System.out.println("GetArrayARData:");
+		Calendar caa1 = Calendar.getInstance();
+		Calendar caa2 = Calendar.getInstance();
+		Calendar caa3 = Calendar.getInstance();
+		caa1.set(2011,4,7,2,0,0);
+		caa2.set(2011,4,7,3,0,0);
+		caa3.set(2011,4,7,4,0,0);
+		Calendar[] carray = new Calendar[3];
+		carray[0] = caa1;
+		carray[1] = caa2;
+		carray[2] = caa3;
+		Tag[] tgtimeTest =new Tag[3];
+		for(int i=0;i<3;i++)
+		{
+			tgtimeTest[i] = new Tag();
+		}
+		piDb.GetArrayARData(carray, 3, tgtimeTest);
+		for(int i=0;i<3;i++)
+		{
+			System.out.println("CDT158 info:"+
+					"name:"+tgtimeTest[i].tagname+"\n"+
+					"number:"+tgtimeTest[i].pointnum+"\n"+
+					"unit:"+tgtimeTest[i].engunit+"\n"+
+					"Pt Type"+tgtimeTest[i].pt_typex+"\n"+
+					"rval:"+tgtimeTest[i].rval+"\n"+
+					"ival:"+tgtimeTest[i].ival+"\n"+
+					"bval:"+tgtimeTest[i].bval+"\n"+
+					"istat:"+tgtimeTest[i].istat+"\n"+
+					"flags:"+tgtimeTest[i].flags+
+					"timedate:"+tgtimeTest[i].timedate+
+					"Calendar:"+tgtimeTest[i].ts.get(Calendar.YEAR)+"-"+
+					tgtimeTest[i].ts.get(Calendar.MONTH)+"-"+
+					tgtimeTest[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
+					tgtimeTest[i].ts.get(Calendar.HOUR_OF_DAY)+":"+
+					tgtimeTest[i].ts.get(Calendar.MINUTE)+":"+
+					tgtimeTest[i].ts.get(Calendar.SECOND)+";");
+		}
+		System.out.println();
+		//~
 		
 //		for(int i=0;i<count;i++)
 //		{

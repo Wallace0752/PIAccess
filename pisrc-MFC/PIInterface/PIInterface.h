@@ -1,14 +1,8 @@
-// #include <wtypes.h>
-// #include <atlconv.h>
-// #include <tchar.h>
-//#pragma once
-//#include <jni.h>
-// #ifndef _PI_INTERFACE_MAO
-// #define _PI_INTERFACE_MAO
+
+#pragma once
 
 #include "piapix.h"
 #include "piaccess_PiDb.h"
-//#include "jni_md.h"
 #define TAG_LEN 80
 
 typedef struct _TAG
@@ -18,15 +12,14 @@ typedef struct _TAG
 	char descriptor[27];   
 	char engunit[32];
 	char instrumenttag[33];
-	//	char pt_type;
 	PIvaluetype pt_typex;
-	float64 rval;//, arcrval;
-	int32  ival;//, arcival;
-	void  *bval;//, *arcbval;
-	uint32 bsize;//, arcbsize;
-	int32  istat;//, arcistat;
-	int16  flags;//, arcflags;
-	PITIMESTAMP ts;//, arcts;
+	float64 rval;
+	int32  ival;
+	void  *bval;
+	uint32 bsize;
+	int32  istat;
+	int16  flags;
+	PITIMESTAMP ts;
 } TAG;
 //InitTAGFromjTag说明：
 //根据java中的Tag对象jobjTag初始化C中的TAG结构体tag，将jobjTag中有tagname或者pointnum
@@ -40,8 +33,6 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag);
 //返回值信息：0：系统错误；-1：标签点没有找到或者未连接到服务器；1：获取成功
 //            -2：jobjTag的tagname或者pointnum均为空（0），tag各字段为默认值
 int InitTAGFromPI(TAG &tag);
-//
-//void PIValueTypeToChar(PIvaluetype PtType,char* cType);
 //将Calendar转换成PITIMESTAMP类型，其中objCal必须为Calendar类的对象
 PITIMESTAMP CalendarToPITIMESTAMP(JNIEnv *env,jobject objCal);
 //讲PITIMESTAMP类型转换成Calendar类型
@@ -54,5 +45,3 @@ void SetObject(JNIEnv *env,jobject objTag,double rval, int ival, int istat, shor
 void SetTagPIvaluetype(JNIEnv *env, jobject jobjTag, PIvaluetype valType);
 //将枚举类型pttype的值转换成字符串类型
 const char *GetTypeStr ( PIvaluetype pttype);
-
-//#endif

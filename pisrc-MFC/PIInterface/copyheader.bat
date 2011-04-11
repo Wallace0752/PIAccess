@@ -1,4 +1,4 @@
 rem copyheader
-copy ..\..\pisrc-java\PIAccess\*.h .\
+copy ..\..\PIAccess\*.h .\
 pause
 exit

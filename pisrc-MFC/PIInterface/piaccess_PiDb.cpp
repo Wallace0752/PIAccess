@@ -1,8 +1,8 @@
 // #include "piaccess_PiDb.h"
 // #include "PIInterface.h"
 //#include <jni.h>
-#include "piaccess_PiDb.h"
-#include "piapix.h"
+// #include "piaccess_PiDb.h"
+// #include "piapix.h"
 #include "PIInterface.h"
 
 /*
@@ -48,14 +48,21 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_FindPointNumber(JNIEnv *env, jobject o
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetSingleSNData
 (JNIEnv *env, jobject obj, jobject objTag)
 {
-	TAG tag;
+	//printf("Start!\n");
+	TAG tag = {'\0',0,'\0','\0','\0',PI_Type_bad,0,0,NULL,0,0,0,NULL};
+	//tag.pointnum = 0;
+	//printf("pointnum:%d\n",tag.pointnum);
 	int result;
-	result = InitTAGFromjTag(env,objTag,tag);
+	result = GetTAGFromjTag(env,objTag,tag);
+	//printf("GetTAGFromjTag succeed!");
 	if(!result)
 	{
 		printf("Error in InitTagFromjTag code:%d",result);
 		return 0;
 	}
+	//printf("point num:%d",tag.pointnum);
+	result = InitTAGFromPI(tag);
+	
 	pisn_getsnapshotx(tag.pointnum,&tag.rval,&tag.ival,tag.bval,&tag.bsize,
 		&tag.istat,&tag.flags,&tag.ts);
 	//printf("iNumber:%d,dValue:%f,iValue:%d \n",iNumber,pSnapDval,pSnapIval);
@@ -76,12 +83,12 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetSingleSNData
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArraySNData
 (JNIEnv *env, jobject obj, jobjectArray arrTag)
 {
-	printf("start!");
+	//printf("start!");
 	jsize length = env->GetArrayLength((jarray)arrTag);
-	printf("Length:%d",length);
+	//printf("Length:%d",length);
 	for (int i = 0;i<length;i++)
 	{
-		printf("getting array element");
+		//printf("getting array element");
 		jobject objTag = env->GetObjectArrayElement(arrTag,i);
 		jint result = Java_piaccess_PiDb_GetSingleSNData(env, 
 			obj,objTag);
@@ -117,7 +124,7 @@ JNIEXPORT void JNICALL Java_piaccess_PiDb_DateTest
 	}
 	jint jYearCode = env->GetStaticIntField(jclsobjCal,jfYEARID);
 	jint jYear = env->CallIntMethod(objCalIn,jmGetID,(int)jYearCode);
-	printf("Year Code is %d,Year is %d",jYearCode,jYear);
+	//printf("Year Code is %d,Year is %d",jYearCode,jYear);
 }
 /*
 * Class:     piaccess_PiDb
@@ -151,22 +158,28 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetARData(JNIEnv *env,
 jobject obj, jobject objCalStart, jobject objCalEnd, jint iPtNumber, 
 jobjectArray objarTag)
 {
-	float64 rval;
-	int32 ival,istat;
-	int16 iflag;
+	TAG tag;
+	tag.pointnum = iPtNumber;
+	InitTAGFromPI(tag);
+// 	float64 rval;
+// 	int32 ival,istat;
+// 	int16 iflag;
 	PITIMESTAMP tmStart = CalendarToPITIMESTAMP(env,objCalStart);
-	PITIMESTAMP tmEnd = CalendarToPITIMESTAMP(env,objCalEnd);
+	tag.ts = CalendarToPITIMESTAMP(env,objCalEnd);
 	int32 count = env->GetArrayLength((jarray)objarTag);
-	int result = piar_getarcvaluesx(iPtNumber,ARCflag_comp,&count,&rval,
-		&ival,NULL,NULL,&istat,&iflag,&tmStart,&tmEnd,GETFIRST);
+	int result = piar_getarcvaluesx(tag.pointnum,ARCflag_comp,&count,&tag.rval,
+		&tag.ival,&tag.bval,&tag.bsize,&tag.istat,&tag.flags,&tmStart,&tag.ts,GETFIRST);
 	int i = 0;
 	while(!result)
 	{
 		//printf("Month:%d\n",tmEnd.month);
 		jobject objTag = env->GetObjectArrayElement(objarTag,i++);
-		SetObject(env,objTag,rval,ival,istat,iflag,tmEnd);
-		result = piar_getarcvaluesx(iPtNumber,ARCflag_comp,&count,&rval,
-			&ival,NULL,NULL,&istat,&iflag,&tmStart,&tmEnd,GETNEXT);
+		SetjTagFromTAG(env,tag,objTag);
+//		SetObject(env,objTag,rval,ival,istat,iflag,tmEnd);
+// 		result = piar_getarcvaluesx(iPtNumber,ARCflag_comp,&count,&rval,
+// 			&ival,NULL,NULL,&istat,&iflag,&tmStart,&tmEnd,GETNEXT);
+		result = piar_getarcvaluesx(tag.pointnum,ARCflag_comp,&count,&tag.rval,
+			&tag.ival,&tag.bval,&tag.bsize,&tag.istat,&tag.flags,&tmStart,&tag.ts,GETNEXT);
 	}
 	return 1;
 }
@@ -180,26 +193,32 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArrayARData(JNIEnv *env,
 jobject obj, jobjectArray objarCal, jint iPtNumber, jobjectArray objarTag)
 
 {
-	float64 rval;
-	int32 ival,istat;
-	int16 iflag;
+	TAG tag;
+	tag.pointnum = iPtNumber;
+	InitTAGFromPI(tag);
+// 	float64 rval;
+// 	int32 ival,istat;
+// 	int16 iflag;
 	int32 tmCount = env->GetArrayLength((jarray)objarCal);
 	PITIMESTAMP *tm =new PITIMESTAMP[tmCount];
-	PITIMESTAMP tmStamp;
+	//PITIMESTAMP tmStamp;
 	for(int i=0;i<tmCount;i++)
 	{
 		jobject objCal = env->GetObjectArrayElement(objarCal,i);
 		tm[i] = CalendarToPITIMESTAMP(env,objCal);
 	}
-	int result = piar_getarcvaluesx(iPtNumber,ARCflag_time,&tmCount,&rval,
-		&ival,NULL,NULL,&istat,&iflag,tm,&tmStamp,GETFIRST);
+	int result = piar_getarcvaluesx(tag.pointnum,ARCflag_time,&tmCount,&tag.rval,
+		&tag.ival,&tag.bval,&tag.bsize,&tag.istat,&tag.flags,tm,&tag.ts,GETFIRST);
 	int i = 0;
 	while(!result)
 	{
 		jobject objTag = env->GetObjectArrayElement(objarTag,i++);
-		SetObject(env,objTag,rval,ival,istat,iflag,tmStamp);
-		result = piar_getarcvaluesx(iPtNumber,ARCflag_time,&tmCount,&rval,
-			&ival,NULL,NULL,&istat,&iflag,tm,&tmStamp,GETNEXT);
+//		SetObject(env,objTag,rval,ival,istat,iflag,tmStamp);
+		SetjTagFromTAG(env,tag,objTag);
+// 		result = piar_getarcvaluesx(iPtNumber,ARCflag_time,&tmCount,&rval,
+// 			&ival,NULL,NULL,&istat,&iflag,tm,&tmStamp,GETNEXT);
+		int result = piar_getarcvaluesx(tag.pointnum,ARCflag_time,&tmCount,&tag.rval,
+			&tag.ival,&tag.bval,&tag.bsize,&tag.istat,&tag.flags,tm,&tag.ts,GETNEXT);
 	}
 	delete[] tm;
 	return 1;

@@ -29,15 +29,17 @@ typedef struct _TAG
 	PITIMESTAMP ts;//, arcts;
 } TAG;
 //InitTAGFromjTag说明：
-//根据java中的Tag对象jobjTag初始化C中的TAG结构体tag，若jobjTag中有tagname或者pointnum
-//则获取PI中该点的描述、单位、数据类型等信息，并赋值给tag；若jobject中的
-//tagname或者pointnum为空（或0），则tag结构体的各个字段均为默认值。
-//返回值信息：0：系统错误；-1：标签点没有找到或者未连接到服务器；1：获取成功
-//            2：jobjTag的tagname或者pointnum均为空（0），tag各字段为默认值
-int InitTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG tag);
+//根据java中的Tag对象jobjTag初始化C中的TAG结构体tag，将jobjTag中有tagname或者pointnum
+//赋值到tag的相应字段
+int GetTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG &tag);
 //SetjTagFromTAG说明：
 //与InitTAGFromjTag相反，将TAG结构体tag的各个属性值赋值给jobjTag各个字段
-int SetjTagFromTAG(JNIEnv *env,TAG tag,jobject jobjTag);
+int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag);
+//根据PI的值初始化一个TAG类型的对象,tag传入时需要指定tagname或者pointnum，
+//返回一个已经初始化的TAG，其中TAG的单位、描述、点的类型等信息均已经读出
+//返回值信息：0：系统错误；-1：标签点没有找到或者未连接到服务器；1：获取成功
+//            -2：jobjTag的tagname或者pointnum均为空（0），tag各字段为默认值
+int InitTAGFromPI(TAG &tag);
 //
 //void PIValueTypeToChar(PIvaluetype PtType,char* cType);
 //将Calendar转换成PITIMESTAMP类型，其中objCal必须为Calendar类的对象

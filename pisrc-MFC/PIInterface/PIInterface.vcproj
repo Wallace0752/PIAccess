@@ -64,7 +64,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="piapi32.lib"
-				OutputFile="C:\Documents and Settings\Administrator\My Documents\MyEclipse\PIAccess\$(ProjectName).dll"
+				OutputFile="..\..\PIAccess\$(ProjectName).dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\LIBRARY"
 				ModuleDefinitionFile=""

@@ -1,5 +1,7 @@
 PIAccess/bin
 PIAccess/bin/*
+PIAccess/*.log
+PIAccess/PIInterface.*
 pisrc-MFC/*.ncb
 pisrc-MFC/*.suo
 pisrc-MFC/Debug

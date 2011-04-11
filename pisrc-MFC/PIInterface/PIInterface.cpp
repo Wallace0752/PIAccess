@@ -4,25 +4,76 @@
 #include "PIInterface.h"
 //#include <jni.h>
 
-int InitTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG tag)
+int GetTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG &tag)
 {
 	//获取类
 	jclass jclsTag = env->GetObjectClass(jobjTag);
 	if(!jclsTag)
 	{
-		printf("Error in GetSnapShot GetObjectClass(Tag)");
+		printf("Error in GetSnapShot GetObjectClass(Tag)\n");
 		return 0;
 	}
 	//先取出标签名
-	int result;
 	jfieldID idName = env->GetFieldID(jclsTag,"tagname","Ljava/lang/String;");
 	jstring jstrName = (jstring)env->GetObjectField(jobjTag,idName);
-	if(jstrName)//若有标签名，则根据标签名取得标签编号
+	if(jstrName)
 	{
 		const char* strConName = env->GetStringUTFChars(jstrName,NULL);
 		strcpy(tag.tagname,strConName);
-		result = pipt_findpoint(tag.tagname,&tag.pointnum);
 		env->ReleaseStringUTFChars(jstrName,strConName);
+		return 1;
+	}
+	jfieldID  idPtNum =env->GetFieldID(jclsTag,"pointnum","I");
+	tag.pointnum = env->GetIntField(jobjTag,idPtNum);
+	
+	return 1;
+	
+}
+int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
+{
+	//获取类
+	jclass clsTag = env->GetObjectClass(jobjTag);
+	if(!clsTag)
+	{
+		printf("Error in GetSnapShot GetObjectClass(Tag)");
+		return 0;
+	}
+	jfieldID jfID = env->GetFieldID(clsTag,"rval","D");
+	env->SetDoubleField(jobjTag,jfID,tag.rval);
+	jfID = env->GetFieldID(clsTag,"ival","I");
+	env->SetIntField(jobjTag,jfID,tag.ival);
+	jfID = env->GetFieldID(clsTag,"istat","I");
+	env->SetIntField(jobjTag,jfID,tag.istat);
+	jfID = env->GetFieldID(clsTag,"flags","S");
+	env->SetShortField(jobjTag,jfID,tag.flags);
+	jfID = env->GetFieldID(clsTag,"pointnum","I");
+	env->SetIntField(jobjTag,jfID,tag.pointnum);
+	jobject jobjCal = PITIMESTAMPToCalendar(env,tag.ts);
+	SetTagCalendar(env,jobjTag,jobjCal);
+	SetTagPIvaluetype(env,jobjTag,tag.pt_typex);
+	//处理String类型的字段
+	jfID = env->GetFieldID(clsTag,"tagname","Ljava/lang/String;");
+	jstring jstr = env->NewStringUTF(tag.tagname);
+	env->SetObjectField(jobjTag,jfID,jstr);
+
+	jfID = env->GetFieldID(clsTag,"descriptor","Ljava/lang/String;");
+	jstr = env->NewStringUTF(tag.descriptor);
+	env->SetObjectField(jobjTag,jfID,jstr);
+
+	jfID = env->GetFieldID(clsTag,"engunit","Ljava/lang/String;");
+	jstr = env->NewStringUTF(tag.engunit);
+	env->SetObjectField(jobjTag,jfID,jstr);
+	
+	env->DeleteLocalRef(jstr);
+	return 1;
+}
+int InitTAGFromPI(TAG &tag)
+{
+	int result;
+	if('\0'!=tag.tagname[0])
+	{
+		//printf("name:%s",tag.tagname);
+		result = pipt_findpoint(tag.tagname,&tag.pointnum);
 		if(result)
 		{
 			if(result>0)
@@ -44,12 +95,11 @@ int InitTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG tag)
 	}
 	else//若没有标签名，则直接根据标签编号
 	{
-		jfieldID  idPtNum =env->GetFieldID(jclsTag,"pointnum","I");
-		tag.pointnum = env->GetIntField(jobjTag,idPtNum);
 		if(!tag.pointnum)
 		{
 			//简单初始化，tag各个字段均为默认值
-			return 2;
+			printf("未指定标签名或者标签编号");
+			return -2;
 		}
 		result = pipt_ptexist(tag.pointnum);
 		if(!result)
@@ -114,44 +164,6 @@ int InitTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG tag)
 				tag.bsize = 0;
 				break;
 	}
-	
-}
-int SetjTagFromTAG(JNIEnv *env,TAG tag,jobject jobjTag)
-{
-	//获取类
-	jclass clsTag = env->GetObjectClass(jobjTag);
-	if(!clsTag)
-	{
-		printf("Error in GetSnapShot GetObjectClass(Tag)");
-		return 0;
-	}
-	jfieldID jfID = env->GetFieldID(clsTag,"rval","D");
-	env->SetDoubleField(jobjTag,jfID,tag.rval);
-	jfID = env->GetFieldID(clsTag,"ival","I");
-	env->SetIntField(jobjTag,jfID,tag.ival);
-	jfID = env->GetFieldID(clsTag,"istat","I");
-	env->SetIntField(jobjTag,jfID,tag.istat);
-	jfID = env->GetFieldID(clsTag,"flags","S");
-	env->SetShortField(jobjTag,jfID,tag.flags);
-	jfID = env->GetFieldID(clsTag,"pointnum","I");
-	env->SetIntField(jobjTag,jfID,tag.pointnum);
-	jobject jobjCal = PITIMESTAMPToCalendar(env,tag.ts);
-	SetTagCalendar(env,jobjTag,jobjCal);
-	SetTagPIvaluetype(env,jobjTag,tag.pt_typex);
-	//处理String类型的字段
-	jfID = env->GetFieldID(clsTag,"tagname","Ljava/lang/String;");
-	jstring jstr = env->NewStringUTF(tag.tagname);
-	env->SetObjectField(jobjTag,jfID,jstr);
-
-	jfID = env->GetFieldID(clsTag,"descriptor","Ljava/lang/String;");
-	jstr = env->NewStringUTF(tag.descriptor);
-	env->SetObjectField(jobjTag,jfID,jstr);
-
-	jfID = env->GetFieldID(clsTag,"engunit","Ljava/lang/String;");
-	jstr = env->NewStringUTF(tag.engunit);
-	env->SetObjectField(jobjTag,jfID,jstr);
-	
-	env->DeleteLocalRef(jstr);
 	return 1;
 }
 void PIValueTypeToChar(PIvaluetype PtType,char* cType)
@@ -317,6 +329,7 @@ jobject PITIMESTAMPToCalendar(JNIEnv *env, PITIMESTAMP tmStamp)
 	//printf("Month:%d\n",tmStamp.month);
 	env->CallVoidMethod(jobjCal,jmSetID,tmStamp.year,tmStamp.month,
 		tmStamp.day,tmStamp.hour,tmStamp.minute,tmStamp.second);
+	printf("Second:%f",tmStamp.second);
 	return jobjCal;
 }
 //设置标签点的Calendar值

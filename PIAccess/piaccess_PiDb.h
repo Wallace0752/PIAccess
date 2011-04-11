@@ -33,22 +33,6 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArraySNData
 
 /*
  * Class:     piaccess_PiDb
- * Method:    DateTest
- * Signature: (Ljava/util/Calendar;Ljava/util/Calendar;)V
- */
-JNIEXPORT void JNICALL Java_piaccess_PiDb_DateTest
-  (JNIEnv *, jobject, jobject, jobject);
-
-/*
- * Class:     piaccess_PiDb
- * Method:    EnumTest
- * Signature: ()Lpiaccess/PIvaluetype;
- */
-JNIEXPORT jobject JNICALL Java_piaccess_PiDb_EnumTest
-  (JNIEnv *, jobject);
-
-/*
- * Class:     piaccess_PiDb
  * Method:    GetARCount
  * Signature: (Ljava/util/Calendar;Ljava/util/Calendar;I)I
  */

@@ -10,27 +10,12 @@ import java.util.Calendar;
 ///*i,o*/：先传入后传出
 
 public class PiDb {
-//	public Tag TagPoint;
-
-//	public int iTest;
-	
-//	public native int Get();
-//	public native int Set();
-//	public native Tag GetSnapShot(int PointNumber);
 	//通过标签点的名称获得标签点的编号,返回值为标签点编号。若没有找到，则返回-1
 	public native int FindPointNumber(/*i*/String TagName);
-/*	//通过标签点的编号获取标签点的单个快照数据，该数据位实数类型，返回值1表示成功
-	public native int GetSNRealByNumber(iint PointNumber, oTag TagPoint);
-	//通过标签点的名称获取标签点的单个快照数据，该数据为实数类型，返回值1表示成功
-	public native int GetSNRealByName(iString TagName, oTag TagPoint);*/
 	//获取传入TagPoint的数据。传入时需要制定Tag名称或者Tag编号。若同时指定，则Tag名称优先
 	public native int GetSingleSNData(/*i,o*/Tag TagPoint);
 	//获取传入的TagPtArray的数据，传入时需要制定Tag名称或者Tag编号。若同时指定，则Tag名称优先
 	public native int GetArraySNData(/*i,o*/Tag[] TagPtArray);
-	//日期传入与传出测试
-	public native void DateTest(Calendar inCal, Calendar outCal);
-	//测试JNI对于枚举类型的读取
-	public native PIvaluetype EnumTest();
 	//获得一个时间范围内记录的数量,返回值为记录的个数
 	public native int GetARCount(/*i*/Calendar tmStart, /*i*/Calendar tmEnd, 
 			/*i*/int PtNumber);

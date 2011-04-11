@@ -51,6 +51,6 @@ void SetObject(JNIEnv *env,jobject objTag,double rval, int ival, int istat, shor
 //将jobjTag的pt_typex字段设置为valType
 void SetTagPIvaluetype(JNIEnv *env, jobject jobjTag, PIvaluetype valType);
 //将枚举类型pttype的值转换成字符串类型
-const char *GetTypeStr ( PIvaluetype pttype)
+const char *GetTypeStr ( PIvaluetype pttype);
 
 //#endif

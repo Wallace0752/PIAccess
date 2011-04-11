@@ -1,0 +1,21 @@
+PI-API 函数前缀说明
+----------------------------
+Unit | Description
+----------------------------
+PIAR | Archive Funcs
+----------------------------
+PIBA | PI Batch Funcs
+----------------------------
+PIEL | Event Log Funcs
+----------------------------
+PILG | Login Funcs & Message Log(Home and Net Node) Funcs /
+     | Login connections and user dialogs(MSW and NT only)
+----------------------------
+PIPT | Point Database Funcs
+----------------------------
+PISN | Snapshot Funcs
+----------------------------
+PITM | Time Funcs
+----------------------------
+PIUT | Utility Funcs
+----------------------------

@@ -1,0 +1,5 @@
+LIBRARY "PIInterface"
+
+EXPORTS
+add
+PIUT_GetApiVersion

@@ -1,0 +1,36 @@
+一、PI PointBuilder Plug-in
+允许用户查看、编辑和创建PI标签点。
+1、首先需要连接服务器。
+2、Tag list：Tag列表中显示点的信息。
+3、Search 按钮：根据条件搜索特定点，并可以将其显示在TagList中。
+4、点的保存：
+    a、在点的属性显示框中，如果Name可用，则显示为蓝色，若不可用（重复或者未连服务器）则显示      为黑色。
+    b、只有当Name, point class, point type, point source和source tag 五个属性均制定时，才可      以保存点，表示点创建成功。
+5、General Tab：标签点的一般属性。
+6、Classic Tab：只有当制定为Classic类型的Point Type时,该Tab中的数据才有用。其中的每一个数据所表示的意义会在调研它的API函数中说明。
+7、Archive Tab：包含数据在PI中存储的一些属性。
+    a、Typical Value：用于产生实例，必须在Zero和Zero+Span之间（可相等）。
+    b、Zero：对于数值型数据类型的点，需要制定下界。如果一个float16类型点的值小于Zero，则存储时只能存储为Under Range。对于非数值型点，这个参数没有用处。
+    c、Span：数值型数据上下界之间的差值。对于Float16类型的数据，若数据超出Zero+Span，则存储时存储为Over Range。对于其他点类型，Zero和Span不影响其在archive中的存储。对于非数值型点，这个参数没有用处。
+    d、Scan：对于某些借口函数有用，如果设置为OFF（0），则调用函数后不能更新数据。
+    e、Archiving：需要存储的点，此属性设置为ON（1），反之则为OFF（0）。
+    f、Step：只对数值型点有效，定义了数值型点如何进行插值存储。缺省为OFF（0），即为连续型信号，临近点值之间采用线性插值，应用swinging-door算法进行存储。若为ON（1），则为离散信号，临近点之间不进行插值操作。
+	例如：Step=0（OFF）
+           12:00 ——100；
+	   12:02 ——102；
+	则12:01 ——101；
+
+	若Step=1（On）
+	   12:00 —— 100；
+	   12:02 —— 102；
+	则12:01 ——100；
+    g、Shutdown：默认为TRUE，表示当shutdown事件发生时，该事件会被记录下来，以便于当PI服务器重新启动时，可以清楚的表示数据采集的缺口。当采用分布式的采集节点时，由于在PINet和PI API中的缓冲可以保持数据直到服务重新启动，因此这个标记应该被设定成False。
+    h、Compressing：对于实时数据点，应当被设置成On，以压缩方式存储。实验室采样的数据可以设置成OFF，则发送到Snapshot的每一个值都会被保存在archive中。
+    i、Exception Deviation：exception report（例外报告）会指定偏差（ExcDev），最小时间（ExcMin）和最大时间（ExcMax）。在两种情况下接口程序会发送例外报告：一种是大于ExcMax，一种是大于ExcMin同时数据的变化超过ExcDev。例外偏差应当至少比压缩偏差小2倍。ExcDev使用Engineering Units表示偏差，是绝对偏差；ExcDevPrecent以Span的百分比的形式表示偏差，是相对偏差。关闭例外报告，则设置ExcMax = 0;ExcMin = 0。在PI客户端（接口）使用
+    j、Compression Deviation：在PI服务器端使用。于Exception reporting类似，压缩会指定压缩偏差（CompDev），压缩最小时间（CompMin）和压缩最大时间（CompMax），进行压缩操作的两种情况与发送例外报告的两种情况类似：一种是大于CompMax，一种是大于CompMin同时数据的变化超过CompDev。对于与发送例外的接口相关联的点，CompMin应该设为0。CompMax一般可以设为一个班次的时间，例如8小时。对于流体、压力等场合，CompDevPercent应该设为Span的1%~2%，对于温度场合，通常设为1~2摄氏度。CompDev和CompDevPercent是相关联的，一个变化另一个会自动匹配。二者都发生变化，则以CompDevPercent为准。
+8、Other Tab：显示非Base类和非classic类的属性
+9、Security Tab：权限设置
+10、System Tab：显示用户不可更改的系统属性。
+
+
+二、PI Archive Manager

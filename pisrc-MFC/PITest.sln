@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PITest", "PITest\PITest.vcproj", "{044D263B-5359-40E8-9AE1-7ECA7617A23A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PIInterface", "PIInterface\PIInterface.vcproj", "{D73C4DCA-78AB-44CE-BC2E-96406930607A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{044D263B-5359-40E8-9AE1-7ECA7617A23A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{044D263B-5359-40E8-9AE1-7ECA7617A23A}.Debug|Win32.Build.0 = Debug|Win32
+		{044D263B-5359-40E8-9AE1-7ECA7617A23A}.Release|Win32.ActiveCfg = Release|Win32
+		{044D263B-5359-40E8-9AE1-7ECA7617A23A}.Release|Win32.Build.0 = Release|Win32
+		{D73C4DCA-78AB-44CE-BC2E-96406930607A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D73C4DCA-78AB-44CE-BC2E-96406930607A}.Debug|Win32.Build.0 = Debug|Win32
+		{D73C4DCA-78AB-44CE-BC2E-96406930607A}.Release|Win32.ActiveCfg = Release|Win32
+		{D73C4DCA-78AB-44CE-BC2E-96406930607A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

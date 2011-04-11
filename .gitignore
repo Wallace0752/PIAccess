@@ -1,0 +1,6 @@
+PIAccess\bin
+PIAccess\bin\*
+pisrc-MFC\Debug
+pisrc-MFC\Debug\*
+pisrc-MFC\PIInterface\Debug
+pisrc-MFC\PITest\Debug

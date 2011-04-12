@@ -107,12 +107,12 @@ BOOL CPITestDlg::OnInitDialog()
 // 	{
 // 		SetDlgItemText(IDC_STATIC_VERSION,A2CT(version));
 // 	}
-	LPTSTR str = new TCHAR[32];
-	if (PIUT_GetApiVersion(str))
-	{
-		SetDlgItemText(IDC_STATIC_VERSION,str);
-	}
-	delete str;
+	//LPTSTR str = new TCHAR[32];
+	//if (PIUT_GetApiVersion(str))
+	//{
+	//	SetDlgItemText(IDC_STATIC_VERSION,str);
+	//}
+	//delete str;
 	//m_listPoints.SetItemCount(ITEM_COUNT);
 	//m_listPoints.InsertItem(0,NULL);
 	m_listPoints.InsertColumn(0,_T("Tag Name"));
@@ -181,7 +181,9 @@ HCURSOR CPITestDlg::OnQueryDragIcon()
 void CPITestDlg::OnBnClickedBtnSearch()
 {
 	// TODO: Add your control notification handler code here
-
+	CString strInfo;
+	strInfo.Format(_T("1 + 2 = %d"), add(1, 2));
+	MessageBox(strInfo, _T("Tip"), MB_OK);
 // 	char v[32];
 // 	piut_getapiversion(v,sizeof(v));
 //  	HINSTANCE hs = LoadLibrary(_T("PIInterface.dll"));
@@ -205,9 +207,8 @@ void CPITestDlg::OnBnClickedBtnSearch()
 // 		AfxMessageBox(lpMsgBuf);
 // 		return;
 // 	}
- 	CString str;
- 	str.Format(_T("3+5=%d"),add(3,5));
- 	AfxMessageBox(str);
+ 	//CString str;
+ 	//str.Format(_T("3+5=%d"),add(3,5));
+ 	//AfxMessageBox(str);
 /*	FreeLibrary(hs);*/
-
 }

@@ -4,9 +4,6 @@
 #pragma once
 #include "afxcmn.h"
 
-__declspec(dllimport) int add(int a,int b);
-__declspec(dllimport) BOOL PIUT_GetApiVersion(LPTSTR /*in*/ version);
-
 
 // CPITestDlg dialog
 class CPITestDlg : public CDialog

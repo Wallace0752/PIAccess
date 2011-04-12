@@ -158,6 +158,11 @@ public class PiDbTest extends TestCase {
 		//~
 	}
 	
+	public void testGet()
+	{
+		
+	}
+	
 	public static void main(String[] args)
 	{
 		junit.textui.TestRunner.run(PiDbTest.class);

@@ -121,6 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\..\INCLUDE"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;PIINTERFACE_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -139,7 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="piapi32.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\LIBRARY"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

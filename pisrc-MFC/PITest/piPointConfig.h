@@ -1,3 +1,6 @@
+//__declspec(dllimport) int __stdcall add(int a,int b);
+//__declspec(dllimport) __stdcall BOOL PIUT_GetApiVersion(LPTSTR /*in*/ version);
+
 // #define ITEM_COUNT 5   //m_listPoints列表中item的数量
 // #define TAG_LEN 80
 
@@ -20,3 +23,8 @@
 // 	int16  flags, arcflags;
 // 	PITIMESTAMP ts, arcts;
 // } TAG;
+
+int WINAPI add(int a, int b)
+{
+    return a + b;
+}

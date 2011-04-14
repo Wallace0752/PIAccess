@@ -36,6 +36,8 @@ public class PiDbTest extends TestCase {
 				"rval:"+tg.rval+"\n"+
 				"ival:"+tg.ival+"\n"+
 				"bval:"+tg.bval+"\n"+
+				"strstat:"+tg.istat+"\n"+
+				"strstat:"+tg.strstat+"\n"+
 				"flags:"+tg.flags+"\n"+
 				"timedate:"+tg.timedate+"\n"+
 				"Calendar:"+tg.ts.get(Calendar.YEAR)+"-"+
@@ -68,6 +70,7 @@ public class PiDbTest extends TestCase {
 					"ival:"+tgarray[i].ival+"\n"+
 					"bval:"+tgarray[i].bval+"\n"+
 					"istat:"+tgarray[i].istat+"\n"+
+					"strstat:"+tgarray[i].strstat+"\n"+
 					"flags:"+tgarray[i].flags+"\n"+
 					"timedate:"+tgarray[i].timedate+"\n"+
 					"Calendar:"+tgarray[i].ts.get(Calendar.YEAR)+"-"+
@@ -105,6 +108,7 @@ public class PiDbTest extends TestCase {
 					"ival:"+tgARarray[i].ival+"\n"+
 					"bval:"+tgARarray[i].bval+"\n"+
 					"istat:"+tgARarray[i].istat+"\n"+
+					"strstat:"+tgARarray[i].strstat+"\n"+
 					"flags:"+tgARarray[i].flags+"\n"+
 					"timedate:"+tgARarray[i].timedate+"\n"+
 					"Calendar:"+tgARarray[i].ts.get(Calendar.YEAR)+"-"+
@@ -145,6 +149,7 @@ public class PiDbTest extends TestCase {
 					"ival:"+tgtimeTest[i].ival+"\n"+
 					"bval:"+tgtimeTest[i].bval+"\n"+
 					"istat:"+tgtimeTest[i].istat+"\n"+
+					"strstat:"+tgtimeTest[i].strstat+"\n"+
 					"flags:"+tgtimeTest[i].flags+"\n"+
 					"timedate:"+tgtimeTest[i].timedate+"\n"+
 					"Calendar:"+tgtimeTest[i].ts.get(Calendar.YEAR)+"-"+
@@ -156,6 +161,10 @@ public class PiDbTest extends TestCase {
 		}
 		System.out.println();
 		//~
+//		System.out.println("GetState:");
+//		String strState = new String();
+//		piDb.GetState(tgtimeTest[1].istat, strState);
+//		System.out.println("State:"+strState);
 	}
 	
 	public void testGet()

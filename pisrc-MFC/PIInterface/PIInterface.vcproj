@@ -141,6 +141,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="piapi32.lib"
+				OutputFile="..\..\PIAccess\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\LIBRARY"
 				GenerateDebugInformation="true"

@@ -26,18 +26,13 @@ public class PiDb {
 	//根据所提供的时间序列，获取一列对应的值，该值是通过插值算法计算出
 	public native int GetArrayARData(/*i*/Calendar[] arrayTime,/*i*/int PtNumber,
 			/*o*/Tag[] TagArray);
+	//根据iStateCode获取状态代码在PI中所代表的意思
+	public native int GetState(/*i*/int iStateCode, /*o*/String strState);
 	
 	
 	
 	static {
 		System.loadLibrary("PIInterface");
 	}
-/*	public static void main(String[] args)
-	{
-//		HelloWorld CCall = new HelloWorld();
-		PiDb pb = new PiDb();
-		Tag tg = pb.GetSnapShot();
-		System.out.println(tg.getValue());
-		
-	}*/
+
 }

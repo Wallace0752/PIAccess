@@ -18,6 +18,7 @@ typedef struct _TAG
 	void  *bval;
 	uint32 bsize;
 	int32  istat;
+	char strstat[80];
 	int16  flags;
 	PITIMESTAMP ts;
 } TAG;
@@ -45,3 +46,5 @@ void SetObject(JNIEnv *env,jobject objTag,double rval, int ival, int istat, shor
 void SetTagPIvaluetype(JNIEnv *env, jobject jobjTag, PIvaluetype valType);
 //将枚举类型pttype的值转换成字符串类型
 const char *GetTypeStr ( PIvaluetype pttype);
+//传入tag，将获取的状态信息添加到tag的strstat字段
+int GetStateCode(TAG &tag);

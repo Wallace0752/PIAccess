@@ -55,6 +55,14 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetARData
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArrayARData
   (JNIEnv *, jobject, jobjectArray, jint, jobjectArray);
 
+/*
+ * Class:     piaccess_PiDb
+ * Method:    GetState
+ * Signature: (ILjava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetState
+  (JNIEnv *, jobject, jint, jstring);
+
 #ifdef __cplusplus
 }
 #endif

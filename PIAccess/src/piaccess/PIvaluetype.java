@@ -16,10 +16,10 @@ public enum PIvaluetype {
 	   PI_Type_float32,
 	   PI_Type_float64,
 	   PI_Type_PI2,
-	   PI_Type_digital,//(101),
+	   PI_Type_digital,
 	   PI_Type_blob,
-	   PI_Type_PItimestamp,//(104),
+	   PI_Type_PItimestamp,
 	   PI_Type_PIstring,
-	   PI_Type_bad;//(255);
+	   PI_Type_bad;
 
 }

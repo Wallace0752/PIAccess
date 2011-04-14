@@ -11,6 +11,7 @@ public class Tag {
 	   public int  ival = 0/*, arcival*/;
 	   public String bval = null/*, arcbval*/;
 	   public int  istat = 0/*, arcistat*/;
+	   public String strstat = null;
 	   public short  flags = 0/*, arcflags*/;//PI÷–int16¿‡–Õ
 	   public int timedate = 0;
 	   public Calendar ts = Calendar.getInstance();

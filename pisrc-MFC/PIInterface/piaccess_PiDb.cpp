@@ -53,9 +53,14 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetSingleSNData
 	}
 	result = InitTAGFromPI(tag);
 	
-	pisn_getsnapshotx(tag.pointnum,&tag.rval,&tag.ival,tag.bval,&tag.bsize,
+	result = pisn_getsnapshotx(tag.pointnum,&tag.rval,&tag.ival,tag.bval,&tag.bsize,
 		&tag.istat,&tag.flags,&tag.ts);
-
+	if(result)
+	{
+		tag.istat = 0xffffffff;
+		printf("Error in pisn_getsnapshotx!");
+	}
+	result = GetStateCode(tag);
 	result = SetjTagFromTAG(env,tag,objTag);
 	if(!result)
 	{
@@ -133,7 +138,7 @@ jobjectArray objarTag)
 	int i = 0;
 	while(!result)
 	{
-
+		result = GetStateCode(tag);
 		jobject objTag = env->GetObjectArrayElement(objarTag,i++);
 		SetjTagFromTAG(env,tag,objTag);
 		result = piar_getarcvaluesx(tag.pointnum,ARCflag_comp,&count,&tag.rval,
@@ -167,11 +172,30 @@ jobject obj, jobjectArray objarCal, jint iPtNumber, jobjectArray objarTag)
 	int i = 0;
 	while(!result)
 	{
+		result = GetStateCode(tag);
+		//printf("strState:%s",tag.strstat);
 		jobject objTag = env->GetObjectArrayElement(objarTag,i++);
 		SetjTagFromTAG(env,tag,objTag);
 		result = piar_getarcvaluesx(tag.pointnum,ARCflag_time,&tmCount,&tag.rval,
 			&tag.ival,&tag.bval,&tag.bsize,&tag.istat,&tag.flags,tm,&tag.ts,GETNEXT);
 	}
 	delete[] tm;
+	return 1;
+}
+
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetState
+(JNIEnv *env, jobject obj, jint iStat, jstring strStat)
+{
+	printf("start!");
+	char bufStat[80];
+	int result = pipt_digstate((int32)iStat,bufStat,sizeof(bufStat));
+	if(result)
+		strncpy ( bufStat, "-----", sizeof(bufStat));
+	bufStat[79] = '\0';
+	printf("bufStat:%s",bufStat);
+	jclass jclsStr = env->GetObjectClass((jobject)strStat);
+	jmethodID jmValueOfID = env->GetStaticMethodID(jclsStr,"valueOf","([C)Ljava/lang/String;");
+	strStat = (jstring)env->CallStaticObjectMethod(jclsStr,jmValueOfID,bufStat);
+	//strStat = env->NewStringUTF(bufStat);
 	return 1;
 }

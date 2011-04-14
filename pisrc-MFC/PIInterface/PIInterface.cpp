@@ -48,9 +48,14 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
 	jobject jobjCal = PITIMESTAMPToCalendar(env,tag.ts);
 	SetTagCalendar(env,jobjTag,jobjCal);
 	SetTagPIvaluetype(env,jobjTag,tag.pt_typex);
+
 	//处理String类型的字段
+	jfID = env->GetFieldID(clsTag,"strstat","Ljava/lang/String;");
+	jstring jstr = env->NewStringUTF(tag.strstat);
+	env->SetObjectField(jobjTag,jfID,jstr);
+
 	jfID = env->GetFieldID(clsTag,"tagname","Ljava/lang/String;");
-	jstring jstr = env->NewStringUTF(tag.tagname);
+	jstr = env->NewStringUTF(tag.tagname);
 	env->SetObjectField(jobjTag,jfID,jstr);
 
 	jfID = env->GetFieldID(clsTag,"descriptor","Ljava/lang/String;");
@@ -381,4 +386,40 @@ const char *GetTypeStr ( PIvaluetype pttype)
 		return "PI_Type_bad";
 		break;
 	}
+}
+int GetStateCode(TAG &tag)
+{
+	//printf("istat:%d",tag.istat);
+	int result;
+	int statlen = sizeof(tag.strstat);
+	int localistat = tag.istat;
+	if ( tag.istat == 0xffffffff )
+	{
+		strncpy ( tag.strstat, "ERROR", statlen );
+
+		tag.strstat[statlen-1] = '\0';
+		return 0;
+	}
+	else if ( tag.istat != 0 )//
+	{
+		localistat = tag.istat;
+		if (tag.pt_typex == PI_Type_digital)
+		{
+			int32 digcode,dignumb;
+			result = pipt_digpointers ( tag.pointnum, &digcode, &dignumb );
+			if (!result && tag.istat >= 0 && tag.istat <= dignumb )
+				localistat += digcode;
+		}
+		result = pipt_digstate ( localistat, tag.strstat, statlen );
+		if ( result )
+			strncpy ( tag.strstat, "-----", statlen );
+
+		tag.strstat[statlen-1] = '\0';
+		return 1;
+	}
+	else{
+		strncpy ( tag.strstat, "Good", statlen );
+		return 2;
+	}
+	
 }

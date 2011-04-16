@@ -28,7 +28,7 @@ void pi()
     else
     {
         printf("done\n");
-        PrintServerInfo();        
+        PrintServerInfo();
     }
     
     TAG tag;

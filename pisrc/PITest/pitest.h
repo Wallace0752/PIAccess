@@ -171,3 +171,8 @@ TEST(piut_funcs, piut_disconnect)
     // 0 Success.
     EXPECT_EQ(FALSE, r);
 }
+
+TEST(pilg_funcs, pilg_login)
+{
+    int32 r = pilg_login();
+}

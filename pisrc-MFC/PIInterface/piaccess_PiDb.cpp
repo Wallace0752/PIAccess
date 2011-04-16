@@ -213,10 +213,10 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_ConnectServer
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_SetDefaultServer
 (JNIEnv *env, jobject obj, jstring jstrSvrName)
 {
-// 	const char* cSvrName = env->GetStringUTFChars(jstrSvrName,false);
-// 	int32 result = piut_setdefaultservernode(cSvrName);
-// 	if(result)
-// 		return 0;
+	const char* cSvrName = env->GetStringUTFChars(jstrSvrName,false);
+	int32 result = piut_setdefaultservernode(cSvrName);
+	if(result)
+		return 0;
  	return 1;
 }
 
@@ -228,14 +228,15 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_SetDefaultServer
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetDefaultServerInfo
 (JNIEnv *env, jobject obj, jstring jstrSvrName, jstring jstrSvrAddr, jobject bConnected)
 {
-// 	char name[32],address[32];
-// 	int32 iConnect = 0;
-// 	if(!piut_netserverinfo ( name, 32, address, 32, &iConnect ))
-// 	{
-// 		SetjstringFromchar(name,env,jstrSvrName);
-// 		SetjstringFromchar(address,env,jstrSvrAddr);
-// 
-// 	}
+	char name[32],address[32];
+	int32 iConnect = 0;
+	if(!piut_netserverinfo ( name, 32, address, 32, &iConnect ))
+	{
+		SetjstringFromchar(name,env,jstrSvrName);
+		SetjstringFromchar(address,env,jstrSvrAddr);
+		SetjBooleanFromBOOL((BOOL)iConnect,env,bConnected);
+		return 1;
+	}
 	return 0;
 }
 
@@ -247,34 +248,20 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetDefaultServerInfo
 JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetServerInfo
 (JNIEnv *env, jobject obj, jstring jstrSvrName, jstring jstrSvrAddr, jobject bConnected)
 {
-// 	char name[32],address[32],type[32];
-// 	int32 iConnect = 0;
-// 	printf("Start!");
-// 	if(!piut_netserverinfo ( name, 32, address, 32, &iConnect ))
-// 	{
-// 		printf("branch");
-// 		jclass jclsStr = env->FindClass("java/lang/String");
-// 		if(jclsStr)
-// 			printf("jclsStr!");
-// 		jstring jstrBuf = env->NewStringUTF(name);
-// 		if(jstrBuf)
-// 			printf("jstrBuf!");
-// 		jmethodID jmInitID = env->GetMethodID(jclsStr,"<init>","(Ljava/lang/String;)V");
-// 		//jmethodID jmInitID = env->GetMethodID(jclsStr,"concat","(Ljava/lang/String;)Ljava/lang/String;");
-// 		if(jmInitID)
-// 			printf("jmInitID!");
-// 		env->CallObjectMethod(jstrSvrName,jmInitID,jstrBuf);
-// 
-// 		//jstrSvrName = env->NewStringUTF(name);
-// // 		jstrAddr = env->NewStringUTF(address);
-// // 		iConnected = iConnect;
-//  		printf("name:%s,address:%s,conn:%d",name,address,iConnect);
-// // 
-// // 		piut_netinfo(name,32,address,32,type,32);
-// // 		printf("name:%s,address:%s,conn:%s",name,address,type);
-// 
-// 		return 1;
-// 	}
-// 	printf("\nError in piut_netserverinfo!");
+	char address[32];
+	int32 iConnect = 0;
+	const char* name = env->GetStringUTFChars(jstrSvrName,false);
+	int length = env->GetStringUTFLength(jstrSvrName);
+	char* pname = new char[length];
+	strcpy(pname,name);
+	if(!piut_netnodeinfo( pname, length, address, 32, &iConnect ))
+	{
+		SetjstringFromchar(address,env,jstrSvrAddr);
+		SetjBooleanFromBOOL((BOOL)iConnect,env,bConnected);
+		delete[] pname;
+		return 1;
+	}
+	printf("\nError in piut_netserverinfo!");
+	delete[] pname;
  	return 0;
 }

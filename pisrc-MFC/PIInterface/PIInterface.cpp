@@ -425,13 +425,16 @@ int GetStateCode(TAG &tag)
 }
 void SetjstringFromchar(char* cName, JNIEnv *env, jstring &jstrName)
 {
-// 	jclass jclsStr = env->FindClass("java/lang/String");
-// 	jstring jstrBuf = env->NewStringUTF(cName);
-// 	jmethodID jmInitID = env->GetMethodID(jclsStr,"<init>","(Ljava/lang/String;)V");
-// 	env->CallObjectMethod(jstrName,jmInitID,jstrBuf);
+	jclass jclsStr = env->FindClass("java/lang/String");
+	jstring jstrBuf = env->NewStringUTF(cName);
+	jmethodID jmInitID = env->GetMethodID(jclsStr,"<init>","(Ljava/lang/String;)V");
+	env->CallObjectMethod(jstrName,jmInitID,jstrBuf);
 }
 void SetjBooleanFromBOOL(BOOL bval, JNIEnv *env, jobject &jBoolean)
 {
-//	jclass jclsBoolean = env->GetObjectClass(jBoolean);
+	jclass jclsBoolean = env->GetObjectClass(jBoolean);
+	//jboolean jbval = bval;
+	jmethodID jmInitID = env->GetMethodID(jclsBoolean,"<init>","(Z)V");
+	jBoolean = env->CallObjectMethod(jBoolean,jmInitID,(jboolean)bval);
 	
 }

@@ -20,16 +20,29 @@ public class PiDbTest extends TestCase {
 		PiDb piDb = new PiDb();
 		//ConnectServer@
 		System.out.println("Connect Test£¡");
-		int result = piDb.ConnectServer("192.168.1.110","XJ");
-		System.out.println(result);
+		int result = piDb.ConnectServer("127.0.0.1","XJ");
+		//System.out.println(result);
 		//~
-//		String name = new String();
-//		String addr = new String();
-//		int iConn = 0;		
-//		piDb.GetCurServerInfo(name, addr, iConn);
-//		System.out.println("\nname:"+name+
-//				"\naddr:"+addr+
-//				"\nConnected:"+iConn);
+		
+		//GetServerInfo@
+		String addr = new String();
+		Boolean bConn = new Boolean(false);		
+		piDb.GetServerInfo("192.168.1.110", addr, bConn);
+		System.out.println("\nname:192.168.1.110"+
+				"\naddr:"+addr+
+				"\nConnected:"+bConn);
+		//~
+		//SetDefaultServer@
+		piDb.SetDefaultServer("127.0.0.1");
+		//~
+		//GetDefaultServerInfo@
+		String name = new String();
+		bConn = new Boolean(false);		
+		piDb.GetDefaultServerInfo(name, addr, bConn);
+		System.out.println("\nname:"+name+
+				"\naddr:"+addr+
+				"\nConnected:"+bConn);
+		//~
 		
 		if(result==1)
 		{

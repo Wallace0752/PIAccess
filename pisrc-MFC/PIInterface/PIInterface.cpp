@@ -234,7 +234,7 @@ PITIMESTAMP CalendarToPITIMESTAMP(JNIEnv *env,jobject objCal)
 	
 	jfID = env->GetStaticFieldID(jclsCal,"MONTH","I");
 	jCode = env->GetStaticIntField(jclsCal,jfID);
-	tmStamp.month = (int32)env->CallIntMethod(objCal,jmGetID,(int)jCode);
+	tmStamp.month = (int32)env->CallIntMethod(objCal,jmGetID,(int)jCode)+1;//Calendar中的月份是0到11月，此处加1转换成timestamp中的月份
 
 	jfID = env->GetStaticFieldID(jclsCal,"DAY_OF_MONTH","I");
 	jCode = env->GetStaticIntField(jclsCal,jfID);
@@ -305,7 +305,7 @@ jobject PITIMESTAMPToCalendar(JNIEnv *env, PITIMESTAMP tmStamp)
 		return NULL;
 	}
 
-	env->CallVoidMethod(jobjCal,jmSetID,tmStamp.year,tmStamp.month,
+	env->CallVoidMethod(jobjCal,jmSetID,tmStamp.year,tmStamp.month-1,//日期转换，Calendar中的月份是从0到11月，因此此处应该减1
 		tmStamp.day,tmStamp.hour,tmStamp.minute,(int)tmStamp.second);
 	
 	return jobjCal;

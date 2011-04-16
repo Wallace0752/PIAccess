@@ -27,9 +27,16 @@ public class PiDb {
 	public native int GetArrayARData(/*i*/Calendar[] arrayTime,/*i*/int PtNumber,
 			/*o*/Tag[] TagArray);
 	//根据iStateCode获取状态代码在PI中所代表的意思
-	public native int GetState(/*i*/int iStateCode, /*o*/String strState);
+	//public native int GetState(/*i*/int iStateCode, /*o*/String strState);
 	
-	
+	//根据服务器名称连接服务器,1表示连接成功，0表示连接失败，其中SvrName一般为服务器端IP地址,ProcName为自定义的服务器Process名称，为四个字符长度
+	public native int ConnectServer(/*i*/String SvrName, /*i*/String ProcName/*四个字符长度*/);
+	//将名称为strSvrName的服务器设置为默认服务器，成功返回1，否则返回0；
+	public native int SetDefaultServer(/*i*/String strSvrName);
+	//获取默认的服务器信息，strSvrName为服务器名称，strAddr为服务器地址，bConnected表示是否有连接
+	public native int GetDefaultServerInfo(/*o*/String strSvrName, /*o*/String strAddr, /*o*/Boolean iConnected);
+	//获取指定的名称为strSvrName的服务器的地址和连接状态，成功返回1，否则返回0
+	public native int GetServerInfo(/*i*/String strSvrName, /*o*/String strAddr, /*o*/Boolean iConnected);
 	
 	static {
 		System.loadLibrary("PIInterface");

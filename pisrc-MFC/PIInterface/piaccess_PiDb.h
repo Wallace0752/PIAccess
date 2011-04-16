@@ -57,11 +57,35 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetArrayARData
 
 /*
  * Class:     piaccess_PiDb
- * Method:    GetState
- * Signature: (ILjava/lang/String;)I
+ * Method:    ConnectServer
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)I
  */
-JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetState
-  (JNIEnv *, jobject, jint, jstring);
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_ConnectServer
+  (JNIEnv *, jobject, jstring, jstring);
+
+/*
+ * Class:     piaccess_PiDb
+ * Method:    SetDefaultServer
+ * Signature: (Ljava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_SetDefaultServer
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     piaccess_PiDb
+ * Method:    GetDefaultServerInfo
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)I
+ */
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetDefaultServerInfo
+  (JNIEnv *, jobject, jstring, jstring, jobject);
+
+/*
+ * Class:     piaccess_PiDb
+ * Method:    GetServerInfo
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Boolean;)I
+ */
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetServerInfo
+  (JNIEnv *, jobject, jstring, jstring, jobject);
 
 #ifdef __cplusplus
 }

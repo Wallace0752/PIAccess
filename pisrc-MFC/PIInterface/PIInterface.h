@@ -48,3 +48,5 @@ void SetTagPIvaluetype(JNIEnv *env, jobject jobjTag, PIvaluetype valType);
 const char *GetTypeStr ( PIvaluetype pttype);
 //传入tag，将获取的状态信息添加到tag的strstat字段
 int GetStateCode(TAG &tag);
+//void SetjstringFromchar(char* cName, JNIEnv *env, jstring jstrName);
+//void SetjBooleanFromBOOL(BOOL bval, JNIEnv *env, jobject &jBoolean);

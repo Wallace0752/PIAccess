@@ -18,6 +18,21 @@ public class PiDbTest extends TestCase {
 	
 	public void test() {
 		PiDb piDb = new PiDb();
+		//ConnectServer@
+		System.out.println("Connect Test£¡");
+		int result = piDb.ConnectServer("192.168.1.110","XJ");
+		System.out.println(result);
+		//~
+//		String name = new String();
+//		String addr = new String();
+//		int iConn = 0;		
+//		piDb.GetCurServerInfo(name, addr, iConn);
+//		System.out.println("\nname:"+name+
+//				"\naddr:"+addr+
+//				"\nConnected:"+iConn);
+		
+		if(result==1)
+		{
 		//FindPointNumber@
 		System.out.println("FindPointTest:");
 		//System.out.println("CDT158 Number:"+piDb.FindPointNumber("CDT158"));
@@ -28,7 +43,7 @@ public class PiDbTest extends TestCase {
 		System.out.println("GetSingleSNData:");
 		Tag tg = new Tag();
 		//tg.pointnum = 3;
-		tg.pointnum = 14;
+		tg.tagname = "CDT158";
 		piDb.GetSingleSNData(tg);
 		System.out.println("CDT158 info:"+
 				"name:"+tg.tagname+"\n"+
@@ -43,13 +58,7 @@ public class PiDbTest extends TestCase {
 				"strstat:"+tg.strstat+"\n"+
 				"flags:"+tg.flags+"\n"+
 				"timedate:"+tg.timedate+"\n"+
-//				"Calendar:"+tg.ts.get(Calendar.YEAR)+"-"+
 				"Calendar:"+String.format("%1$tF %1$tT", tg.ts));
-//				tg.ts.get(Calendar.MONTH)+"-"+
-//				tg.ts.get(Calendar.DAY_OF_MONTH)+" "+
-//				tg.ts.get(Calendar.HOUR_OF_DAY)+":"+
-//				tg.ts.get(Calendar.MINUTE)+":"+
-//				tg.ts.get(Calendar.SECOND)+";");
 		System.out.println();
 		//~
 		//GetArraySNData@
@@ -77,13 +86,7 @@ public class PiDbTest extends TestCase {
 					"strstat:"+tgarray[i].strstat+"\n"+
 					"flags:"+tgarray[i].flags+"\n"+
 					"timedate:"+tgarray[i].timedate+"\n"+
-					"Calendar:"+String.format("%1$tF %1$tT", tg.ts));
-//					"Calendar:"+tgarray[i].ts.get(Calendar.YEAR)+"-"+
-//					tgarray[i].ts.get(Calendar.MONTH)+"-"+
-//					tgarray[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
-//					tgarray[i].ts.get(Calendar.HOUR_OF_DAY)+":"+
-//					tgarray[i].ts.get(Calendar.MINUTE)+":"+
-//					tgarray[i].ts.get(Calendar.SECOND)+";");
+					"Calendar:"+String.format("%1$tF %1$tT", tgarray[i].ts));
 		}
 		tgarray = null;
 		System.out.println();
@@ -92,8 +95,8 @@ public class PiDbTest extends TestCase {
 		System.out.println("GetARCount,GetARData:");
 		Calendar ca1 = Calendar.getInstance();
 		Calendar ca2 = Calendar.getInstance();
-		ca1.set(2011,3,7,0,20,0);
-		ca2.set(2011,3,7,0,40,0);
+		ca1.set(2011,3,16,16,0,0);
+		ca2.set(2011,3,16,17,0,0);
 		int count = piDb.GetARCount(ca1, ca2, 3);
 		System.out.println("arcive number:"+count);
 		Tag[] tgARarray =new Tag[count];
@@ -116,7 +119,7 @@ public class PiDbTest extends TestCase {
 					"strstat:"+tgARarray[i].strstat+"\n"+
 					"flags:"+tgARarray[i].flags+"\n"+
 					"timedate:"+tgARarray[i].timedate+"\n"+
-					"Calendar:"+String.format("%1$tF %1$tT", tg.ts));
+					"Calendar:"+String.format("%1$tF %1$tT", tgARarray[i].ts));
 //					"Calendar:"+tgARarray[i].ts.get(Calendar.YEAR)+"-"+
 //					tgARarray[i].ts.get(Calendar.MONTH)+"-"+
 //					tgARarray[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
@@ -158,20 +161,11 @@ public class PiDbTest extends TestCase {
 					"strstat:"+tgtimeTest[i].strstat+"\n"+
 					"flags:"+tgtimeTest[i].flags+"\n"+
 					"timedate:"+tgtimeTest[i].timedate+"\n"+
-					"Calendar:"+String.format("%1$tF %1$tT", tg.ts));
-//					"Calendar:"+tgtimeTest[i].ts.get(Calendar.YEAR)+"-"+
-//					tgtimeTest[i].ts.get(Calendar.MONTH)+"-"+
-//					tgtimeTest[i].ts.get(Calendar.DAY_OF_MONTH)+" "+
-//					tgtimeTest[i].ts.get(Calendar.HOUR_OF_DAY)+":"+
-//					tgtimeTest[i].ts.get(Calendar.MINUTE)+":"+
-//					tgtimeTest[i].ts.get(Calendar.SECOND)+";");
+					"Calendar:"+String.format("%1$tF %1$tT", tgtimeTest[i].ts));
 		}
 		System.out.println();
 		//~
-//		System.out.println("GetState:");
-//		String strState = new String();
-//		piDb.GetState(tgtimeTest[1].istat, strState);
-//		System.out.println("State:"+strState);
+		}
 	}
 	
 	public void testGet()

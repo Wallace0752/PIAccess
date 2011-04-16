@@ -182,20 +182,99 @@ jobject obj, jobjectArray objarCal, jint iPtNumber, jobjectArray objarTag)
 	delete[] tm;
 	return 1;
 }
-
-JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetState
-(JNIEnv *env, jobject obj, jint iStat, jstring strStat)
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_ConnectServer
+(JNIEnv *env, jobject obj, jstring jstrName, jstring jstrProcName)
 {
-	printf("start!");
-	char bufStat[80];
-	int result = pipt_digstate((int32)iStat,bufStat,sizeof(bufStat));
-	if(result)
-		strncpy ( bufStat, "-----", sizeof(bufStat));
-	bufStat[79] = '\0';
-	printf("bufStat:%s",bufStat);
-	jclass jclsStr = env->GetObjectClass((jobject)strStat);
-	jmethodID jmValueOfID = env->GetStaticMethodID(jclsStr,"valueOf","([C)Ljava/lang/String;");
-	strStat = (jstring)env->CallStaticObjectMethod(jclsStr,jmValueOfID,bufStat);
-	//strStat = env->NewStringUTF(bufStat);
-	return 1;
+	int result = 1,trys = 0;
+	const char* strName = env->GetStringUTFChars(jstrName,false);
+	const char* ProcName = env->GetStringUTFChars(jstrProcName,false);
+	piut_setprocname ( ProcName );
+	while ( trys < 3 )//尝试三次连接
+	{
+		trys++;
+		result = piut_setservernode ( strName );
+		if ( !result )
+		{
+			env->ReleaseStringUTFChars(jstrName,strName);
+			env->ReleaseStringUTFChars(jstrProcName,ProcName);
+			return 1;
+		}
+	}
+	printf("\nCan not connect to %s",strName);
+	env->ReleaseStringUTFChars(jstrName,strName);
+	env->ReleaseStringUTFChars(jstrProcName,ProcName);
+	return 0;
+}
+/*
+* Class:     piaccess_PiDb
+* Method:    SetDefaultServer
+* Signature: (Ljava/lang/String;)I
+*/
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_SetDefaultServer
+(JNIEnv *env, jobject obj, jstring jstrSvrName)
+{
+// 	const char* cSvrName = env->GetStringUTFChars(jstrSvrName,false);
+// 	int32 result = piut_setdefaultservernode(cSvrName);
+// 	if(result)
+// 		return 0;
+ 	return 1;
+}
+
+/*
+* Class:     piaccess_PiDb
+* Method:    GetDefaultServerInfo
+* Signature: (Ljava/lang/String;Ljava/lang/String;I)I
+*/
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetDefaultServerInfo
+(JNIEnv *env, jobject obj, jstring jstrSvrName, jstring jstrSvrAddr, jobject bConnected)
+{
+// 	char name[32],address[32];
+// 	int32 iConnect = 0;
+// 	if(!piut_netserverinfo ( name, 32, address, 32, &iConnect ))
+// 	{
+// 		SetjstringFromchar(name,env,jstrSvrName);
+// 		SetjstringFromchar(address,env,jstrSvrAddr);
+// 
+// 	}
+	return 0;
+}
+
+/*
+* Class:     piaccess_PiDb
+* Method:    GetServerInfo
+* Signature: (Ljava/lang/String;Ljava/lang/String;I)I
+*/
+JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetServerInfo
+(JNIEnv *env, jobject obj, jstring jstrSvrName, jstring jstrSvrAddr, jobject bConnected)
+{
+// 	char name[32],address[32],type[32];
+// 	int32 iConnect = 0;
+// 	printf("Start!");
+// 	if(!piut_netserverinfo ( name, 32, address, 32, &iConnect ))
+// 	{
+// 		printf("branch");
+// 		jclass jclsStr = env->FindClass("java/lang/String");
+// 		if(jclsStr)
+// 			printf("jclsStr!");
+// 		jstring jstrBuf = env->NewStringUTF(name);
+// 		if(jstrBuf)
+// 			printf("jstrBuf!");
+// 		jmethodID jmInitID = env->GetMethodID(jclsStr,"<init>","(Ljava/lang/String;)V");
+// 		//jmethodID jmInitID = env->GetMethodID(jclsStr,"concat","(Ljava/lang/String;)Ljava/lang/String;");
+// 		if(jmInitID)
+// 			printf("jmInitID!");
+// 		env->CallObjectMethod(jstrSvrName,jmInitID,jstrBuf);
+// 
+// 		//jstrSvrName = env->NewStringUTF(name);
+// // 		jstrAddr = env->NewStringUTF(address);
+// // 		iConnected = iConnect;
+//  		printf("name:%s,address:%s,conn:%d",name,address,iConnect);
+// // 
+// // 		piut_netinfo(name,32,address,32,type,32);
+// // 		printf("name:%s,address:%s,conn:%s",name,address,type);
+// 
+// 		return 1;
+// 	}
+// 	printf("\nError in piut_netserverinfo!");
+ 	return 0;
 }

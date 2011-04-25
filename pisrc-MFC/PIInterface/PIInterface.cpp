@@ -1,4 +1,5 @@
 #include "PIInterface.h"
+#include <tchar.h>
 
 
 int GetTAGFromjTag(JNIEnv *env,jobject jobjTag, TAG &tag)
@@ -51,19 +52,23 @@ int SetjTagFromTAG(JNIEnv *env,TAG &tag,jobject jobjTag)
 
 	//处理String类型的字段
 	jfID = env->GetFieldID(clsTag,"strstat","Ljava/lang/String;");
-	jstring jstr = env->NewStringUTF(tag.strstat);
+	//jstring jstr = env->NewStringUTF(tag.strstat);
+	jstring jstr = char2jstring(env,(const char*)tag.strstat);
 	env->SetObjectField(jobjTag,jfID,jstr);
 
 	jfID = env->GetFieldID(clsTag,"tagname","Ljava/lang/String;");
-	jstr = env->NewStringUTF(tag.tagname);
+	//jstr = env->NewStringUTF(tag.tagname);
+	jstr = char2jstring(env,(const char*)tag.tagname);
 	env->SetObjectField(jobjTag,jfID,jstr);
 
 	jfID = env->GetFieldID(clsTag,"descriptor","Ljava/lang/String;");
-	jstr = env->NewStringUTF(tag.descriptor);
+	//jstr = env->NewStringUTF(tag.descriptor);
+	jstr = char2jstring(env,(const char*)tag.descriptor);
 	env->SetObjectField(jobjTag,jfID,jstr);
 
 	jfID = env->GetFieldID(clsTag,"engunit","Ljava/lang/String;");
-	jstr = env->NewStringUTF(tag.engunit);
+	//jstr = env->NewStringUTF(tag.engunit);
+	jstr = char2jstring(env,(const char*)tag.engunit);
 	env->SetObjectField(jobjTag,jfID,jstr);
 	
 	env->DeleteLocalRef(jstr);
@@ -437,4 +442,17 @@ void SetjBooleanFromBOOL(BOOL bval, JNIEnv *env, jobject &jBoolean)
 	jmethodID jmInitID = env->GetMethodID(jclsBoolean,"<init>","(Z)V");
 	jBoolean = env->CallObjectMethod(jBoolean,jmInitID,(jboolean)bval);
 	
+}
+jstring char2jstring(JNIEnv *env, const char* str)
+{
+	jstring jstr = 0;
+	int lengthofstr = strlen(str);
+	//int lengthofstr = sizeof(str)+1;
+	//printf("length:%d",lengthofstr);
+	int lengthofwstr = MultiByteToWideChar(CP_ACP,0,(LPCSTR)str,lengthofstr,NULL,0);
+	LPWSTR lpwstr = new WCHAR[lengthofwstr];
+	MultiByteToWideChar(CP_ACP,0,(LPCSTR)str,lengthofstr,lpwstr,lengthofwstr);
+	jstr = env->NewString((jchar*)lpwstr,lengthofwstr);
+	delete[] lpwstr;
+	return jstr;
 }

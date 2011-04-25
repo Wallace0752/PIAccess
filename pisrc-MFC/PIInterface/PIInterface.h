@@ -50,3 +50,5 @@ const char *GetTypeStr ( PIvaluetype pttype);
 int GetStateCode(TAG &tag);
 void SetjstringFromchar(char* cName, JNIEnv *env, jstring &jstrName);
 void SetjBooleanFromBOOL(BOOL bval, JNIEnv *env, jobject &jBoolean);
+//将char 转换成jstring，其中设计将GB2312类型转换成UTF-16类型的问题
+jstring char2jstring(JNIEnv *env, const char* str);

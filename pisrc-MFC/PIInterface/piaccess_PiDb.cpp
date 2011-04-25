@@ -60,6 +60,7 @@ JNIEXPORT jint JNICALL Java_piaccess_PiDb_GetSingleSNData
 		tag.istat = 0xffffffff;
 		printf("Error in pisn_getsnapshotx!");
 	}
+	//printf("string:%s",tag.descriptor);
 	result = GetStateCode(tag);
 	result = SetjTagFromTAG(env,tag,objTag);
 	if(!result)

@@ -56,7 +56,7 @@ public class PiDbTest extends TestCase {
 		System.out.println("GetSingleSNData:");
 		Tag tg = new Tag();
 		//tg.pointnum = 3;
-		tg.tagname = "CDT158";
+		tg.tagname = "Test2";
 		piDb.GetSingleSNData(tg);
 		System.out.println("CDT158 info:"+
 				"name:"+tg.tagname+"\n"+
@@ -109,7 +109,7 @@ public class PiDbTest extends TestCase {
 		Calendar ca1 = Calendar.getInstance();
 		Calendar ca2 = Calendar.getInstance();
 		ca1.set(2011,3,16,16,0,0);
-		ca2.set(2011,3,16,17,0,0);
+		ca2.set(2011,3,26,17,0,0);
 		int count = piDb.GetARCount(ca1, ca2, 3);
 		System.out.println("arcive number:"+count);
 		Tag[] tgARarray =new Tag[count];
@@ -125,6 +125,7 @@ public class PiDbTest extends TestCase {
 					"number:"+tgARarray[i].pointnum+"\n"+
 					"unit:"+tgARarray[i].engunit+"\n"+
 					"Pt Type"+tgARarray[i].pt_typex+"\n"+
+					"descriptor:"+tgARarray[i].descriptor+"\n"+
 					"rval:"+tgARarray[i].rval+"\n"+
 					"ival:"+tgARarray[i].ival+"\n"+
 					"bval:"+tgARarray[i].bval+"\n"+
